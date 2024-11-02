@@ -61,10 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ListIterator.cs" />
+    <Compile Include="Assets\Scripts\GameEvents.cs" />
+    <Compile Include="Assets\Scripts\EventDispatcher.cs" />
     <Compile Include="Assets\New Folder\New Folder 1\ExampleUsage.cs" />
     <Compile Include="Assets\New Folder\New Folder 1\BackgroundController.cs" />
     <Compile Include="Assets\Scripts\ErasePixels2.cs" />
     <Compile Include="Assets\Scripts\Easer.cs" />
+    <Compile Include="Assets\Scripts\Utils.cs" />
     <Compile Include="Assets\Scripts\ErasePixels.cs" />
     <Compile Include="Assets\Scripts\Data.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
@@ -79,7 +82,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\New Folder\New Folder 1\NewUnlitShader.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\New Folder\New Folder\RoundedRectShader.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
