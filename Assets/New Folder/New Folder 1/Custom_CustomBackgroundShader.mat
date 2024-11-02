@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_CustomBackgroundShader
+  m_Shader: {fileID: 4800000, guid: 9e65c8bfd6ba02b4e8e4412302e6752b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 47c3774a4c4437f45965928931f751c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryTex:
+        m_Texture: {fileID: 2800000, guid: 90bd4a26fd080cd44808fdebced9afc2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _RectCount: 1
+    m_Colors:
+    - _RectPosition0: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _RectPosition1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition2: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition3: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition4: {r: 0, g: 0, b: 0, a: 0}
+    - _RectRadii0: {r: 0.05, g: 0, b: 0, a: 0}
+    - _RectRadii1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectRadii2: {r: 0, g: 0, b: 0, a: 0}
+    - _RectRadii3: {r: 0, g: 0, b: 0, a: 0}
+    - _RectRadii4: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize0: {r: 0.07, g: 0.09, b: 0, a: 0}
+    - _RectSize1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize2: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize3: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize4: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
