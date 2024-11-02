@@ -33,21 +33,50 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _RectCount: 1
+    - _RectCount: 5
+    - _RectRadii0: 0
+    - _RectRadii0_1: 0
+    - _RectRadii1: 0
+    - _RectRadii1_2: 0
+    - _RectRadii2: 0
+    - _RectRadii2_3: 0
+    - _RectRadii3: 0
+    - _RectRadii3_4: 0
+    - _RectRadii4: 0
+    - _RectRadii5: 0.05
+    - _RectRadii6: 0
+    - _RectRadii7: 0
+    - _RectRadii8: 0
     m_Colors:
-    - _RectPosition0: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _RectPosition0: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition0_1: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition1_2: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition2: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition2_3: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition3: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition3_4: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition4: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition5: {r: 0.41249105, g: 0.21666667, b: 0, a: 0}
+    - _RectPosition6: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition7: {r: 0, g: 0, b: 0, a: 0}
+    - _RectPosition8: {r: 0, g: 0, b: 0, a: 0}
     - _RectRadii0: {r: 0.05, g: 0, b: 0, a: 0}
-    - _RectRadii1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectRadii1: {r: 0.05, g: 0, b: 0, a: 0}
     - _RectRadii2: {r: 0, g: 0, b: 0, a: 0}
     - _RectRadii3: {r: 0, g: 0, b: 0, a: 0}
     - _RectRadii4: {r: 0, g: 0, b: 0, a: 0}
-    - _RectSize0: {r: 0.07, g: 0.09, b: 0, a: 0}
+    - _RectSize0: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize0_1: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize1: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize1_2: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize2: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize2_3: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize3: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize3_4: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize4: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize5: {r: 0.07, g: 0.09333, b: 0, a: 0}
+    - _RectSize6: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize7: {r: 0, g: 0, b: 0, a: 0}
+    - _RectSize8: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

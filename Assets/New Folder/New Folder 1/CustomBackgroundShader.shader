@@ -25,22 +25,22 @@ Shader"Custom/CustomBackgroundShader"
         _RectSize4 ("Rectangle Sizes 4", Vector) = (0, 0, 0, 0)
         _RectRadii4 ("Rectangle Radii 4", Float) = 0
 
-        _RectPosition5 ("Rectangle Positions 5", Vector) = (0, 0, 0, 0)
-        _RectSize5 ("Rectangle Sizes 5", Vector) = (0, 0, 0, 0)
-        _RectRadii5 ("Rectangle Radii 5", Float) = 0
+        _RectPosition0_1 ("Rectangle Positions 0_1", Vector) = (0, 0, 0, 0)
+        _RectSize0_1 ("Rectangle Sizes 0_1", Vector) = (0, 0, 0, 0)
+        _RectRadii0_1 ("Rectangle Radii 0_1", Float) = 0
 
-        _RectPosition6 ("Rectangle Positions 6", Vector) = (0, 0, 0, 0)
-        _RectSize6 ("Rectangle Sizes 6", Vector) = (0, 0, 0, 0)
-        _RectRadii6 ("Rectangle Radii 6", Float) = 0
+        _RectPosition1_2 ("Rectangle Positions 1_2", Vector) = (0, 0, 0, 0)
+        _RectSize1_2 ("Rectangle Sizes 1_2", Vector) = (0, 0, 0, 0)
+        _RectRadii1_2 ("Rectangle Radii 1_2", Float) = 0
 
 
-        _RectPosition7 ("Rectangle Positions 7", Vector) = (0, 0, 0, 0)
-        _RectSize7 ("Rectangle Sizes 7", Vector) = (0, 0, 0, 0)
-        _RectRadii7 ("Rectangle Radii 7", Float) = 0
+        _RectPosition2_3 ("Rectangle Positions 2_3", Vector) = (0, 0, 0, 0)
+        _RectSize2_3 ("Rectangle Sizes 2_3", Vector) = (0, 0, 0, 0)
+        _RectRadii2_3 ("Rectangle Radii 2_3", Float) = 0
 
-        _RectPosition8 ("Rectangle Positions 8", Vector) = (0, 0, 0, 0)
-        _RectSize8 ("Rectangle Sizes 8", Vector) = (0, 0, 0, 0)
-        _RectRadii8 ("Rectangle Radii 8", Float) = 0
+        _RectPosition3_4 ("Rectangle Positions 3_4", Vector) = (0, 0, 0, 0)
+        _RectSize3_4 ("Rectangle Sizes 3_4", Vector) = (0, 0, 0, 0)
+        _RectRadii3_4 ("Rectangle Radii 3_4", Float) = 0
 
     }
 
@@ -91,21 +91,21 @@ Shader"Custom/CustomBackgroundShader"
             float4 _RectSize4;
             half _RectRadii4;
 
-            float4 _RectPosition5;
-            float4 _RectSize5;
-            half _RectRadii5;
+            float4 _RectPosition0_1;
+            float4 _RectSize0_1;
+            half _RectRadii0_1;
 
-            float4 _RectPosition6;
-            float4 _RectSize6;
-            half _RectRadii6;
+            float4 _RectPosition1_2;
+            float4 _RectSize1_2;
+            half _RectRadii1_2;
 
-            float4 _RectPosition7;
-            float4 _RectSize7;
-            half _RectRadii7;
+            float4 _RectPosition2_3;
+            float4 _RectSize2_3;
+            half _RectRadii2_3;
 
-            float4 _RectPosition8;
-            float4 _RectSize8;
-            half _RectRadii8;
+            float4 _RectPosition3_4;
+            float4 _RectSize3_4;
+            half _RectRadii3_4;
             v2f vert(appdata_t v)
             {
                 v2f o;
@@ -135,13 +135,13 @@ Shader"Custom/CustomBackgroundShader"
                     return secondaryColor;
                 if (roundRect(i.uv, _RectPosition4.xy, _RectSize4.xy, _RectRadii4.x) <= 0.0)
                     return secondaryColor;
-                if (roundRect(i.uv, _RectPosition5.xy, _RectSize5.xy, _RectRadii5.x) <= 0.0)
+                if (roundRect(i.uv, _RectPosition0_1.xy, _RectSize0_1.xy, _RectRadii0_1.x) <= 0.0)
                     return secondaryColor;
-                if (roundRect(i.uv, _RectPosition6.xy, _RectSize6.xy, _RectRadii6.x) <= 0.0)
+                if (roundRect(i.uv, _RectPosition1_2.xy, _RectSize1_2.xy, _RectRadii1_2.x) <= 0.0)
                     return secondaryColor;
-                if (roundRect(i.uv, _RectPosition7.xy, _RectSize7.xy, _RectRadii7.x) <= 0.0)
+                if (roundRect(i.uv, _RectPosition2_3.xy, _RectSize2_3.xy, _RectRadii2_3.x) <= 0.0)
                     return secondaryColor;
-                if (roundRect(i.uv, _RectPosition8.xy, _RectSize8.xy, _RectRadii8.x) <= 0.0)
+                if (roundRect(i.uv, _RectPosition3_4.xy, _RectSize3_4.xy, _RectRadii3_4.x) <= 0.0)
                     return secondaryColor;
                 return mainColor;
             }

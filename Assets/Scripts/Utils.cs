@@ -45,11 +45,17 @@ namespace GameSpace.Core
 
         public static void ClearAllMatEffect(Material m_GameMaterial)
         {
-            for(int i = 0; i < 9; i++)
+            for(int i = 0; i < 5; i++)
             {
                 m_GameMaterial.SetVector("_RectPosition" + i, new Vector4(0, 0));
                 m_GameMaterial.SetVector("_RectSize" + i, new Vector4(0, 0));
                 m_GameMaterial.SetFloat("_RectRadii" + i, 0);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                m_GameMaterial.SetVector("_RectPosition" + i+"_"+(1+i), new Vector4(0, 0));
+                m_GameMaterial.SetVector("_RectSize" + i + "_" + (1 + i), new Vector4(0, 0));
+                m_GameMaterial.SetFloat("_RectRadii" + i + "_" + (1 + i), 0);
             }
         }
     }

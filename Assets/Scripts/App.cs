@@ -19,6 +19,7 @@ namespace GameSpace.Core
         public GameObject m_GameEnterPointObj;
         public Material m_GameMaterial;
         public Shader m_GameShader;
+        private Timer m_AnimationTimer;
         private ListIterator<JToken> Questions;
         public static App Instance
         {
@@ -30,6 +31,7 @@ namespace GameSpace.Core
         }
         void Start()
         {
+            m_AnimationTimer = new Timer();
             m_GameMaterial = m_GameEnterPointObj.GetComponent<Image>().material;
             Utils.ClearAllMatEffect(m_GameMaterial);
             AddEvents();
@@ -79,24 +81,57 @@ namespace GameSpace.Core
                     int theFirstStep = Convert.ToInt32(answers[0][0].ToString());
                     Debug.LogWarning("The First step is "+theFirstStep);
 
-                    DrawItemRectEffect(m_ItemControllers[theFirstStep].PosUv, SelectedAnswers.Count);
+                    DrawItemRectEffect(m_ItemControllers[theFirstStep], SelectedAnswers.Count);
                     SelectedAnswers.Push(theFirstStep);
                     UpdateItemsVisible();
                 }
             }
         }
         public Stack<int> SelectedAnswers = new Stack<int>();
-        void DrawItemRectEffect(Vector2 posUv,int numId)
+        void DrawItemRectEffect(Item item, int numId)
         {
-            m_GameMaterial.SetVector("_RectPosition"+ numId, new Vector4(posUv.x,posUv.y));
-            m_GameMaterial.SetVector("_RectSize"+ numId, new Vector4(0.07f, 0.09f));
-            m_GameMaterial.SetFloat("_RectRadii"+ numId,0.05f);
+            if (numId == 0)
+            {
+                m_GameMaterial.SetVector("_RectPosition" + numId, new Vector4(item.PosUv.x, item.PosUv.y));
+                m_GameMaterial.SetVector("_RectSize" + numId, new Vector4(0.07f, 0.09333f));
+                m_GameMaterial.SetFloat("_RectRadii" + numId, 0.05f);
+            }
+            else
+            {
+                PlayRectEffect(item, numId);
+            }
+        }
+
+        void PlayRectEffect(Item item, int numId)
+        {
+            StartCoroutine(PlayRectEffectCor(item));
+        }
+        const float animationTime = 0.4f;
+        IEnumerator PlayRectEffectCor(Item item)
+        {
+            m_AnimationTimer.Reset();
+            int currentSelectedAnsersCount = SelectedAnswers.Count;
+            var currentPosUv = m_ItemControllers[SelectedAnswers.Peek()].PosUv;
+            var toPosUv = item.PosUv;
+            while (m_AnimationTimer <= animationTime)
+            {
+                m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnsersCount, Vector4.Lerp(currentPosUv, toPosUv, m_AnimationTimer / animationTime));
+                m_GameMaterial.SetVector("_RectSize" + currentSelectedAnsersCount, new Vector4(0.07f, 0.09333f));
+                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnsersCount, 0.05f);
+
+                m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnsersCount - 1) + "_" + currentSelectedAnsersCount, Vector4.Lerp(currentPosUv, (toPosUv + currentPosUv) / 2, m_AnimationTimer / animationTime));
+                m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnsersCount - 1) + "_" + currentSelectedAnsersCount, new Vector4(0.07f, 0.09333f));
+                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnsersCount - 1) + "_" + currentSelectedAnsersCount, 0.05f);
+
+                yield return null;
+            }
+
         }
         void OnClickModel(Item item)
         {
             if (!SelectedAnswers.Contains(item.Index))
             {
-                DrawItemRectEffect(item.PosUv, SelectedAnswers.Count);
+                DrawItemRectEffect(item, SelectedAnswers.Count);
                 SelectedAnswers.Push(item.Index);
                 UpdateItemsVisible();
             }
