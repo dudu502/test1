@@ -13,6 +13,7 @@ namespace GameSpace.Core
         public int Index;
         public Image ImgBg;
         public Image ImgModel;
+        public Animator ImgModelAnimator;
         JToken m_OpInfo;
         public Vector2 PosUv;
         void Start()
@@ -25,7 +26,18 @@ namespace GameSpace.Core
             color.a = a;
             ImgModel.color = color;
         }
-
+        public void PlayModelFadeIn()
+        {
+            ImgModelAnimator.Play("FadeIn");
+        }
+        public void PlayModelFadeOut()
+        {
+            ImgModelAnimator.Play("FadeOut");
+        }
+        public void PlayModelWrongEffect()
+        {
+            ImgModelAnimator.Play("Wrong");
+        }
         public void SetImageBgAlpha(float a)
         {
             var color = ImgBg.color;

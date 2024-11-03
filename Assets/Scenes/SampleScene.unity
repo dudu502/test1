@@ -531,7 +531,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 435302151}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1631086942}
+        m_TargetAssemblyTypeName: GameSpace.Core.App, Assembly-CSharp
+        m_MethodName: OnClickReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &435302151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2201,7 +2213,8 @@ MonoBehaviour:
   - {fileID: 1612104646}
   m_GameEnterPointObj: {fileID: 411045362}
   m_GameMaterial: {fileID: 0}
-  m_GameShader: {fileID: 0}
+  m_NextBtn: {fileID: 2109090271}
+  m_ResetBtn: {fileID: 435302150}
 --- !u!1001 &1744383974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2886,7 +2899,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2109090272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1631086942}
+        m_TargetAssemblyTypeName: GameSpace.Core.App, Assembly-CSharp
+        m_MethodName: OnClickNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2109090272
 MonoBehaviour:
   m_ObjectHideFlags: 0

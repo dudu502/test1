@@ -57,7 +57,7 @@ Material:
     - _RectPosition3: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition3_4: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition4: {r: 0, g: 0, b: 0, a: 0}
-    - _RectPosition5: {r: 0.41249105, g: 0.21666667, b: 0, a: 0}
+    - _RectPosition5: {r: 0.70625, g: 0.21666667, b: 0, a: 0}
     - _RectPosition6: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition7: {r: 0, g: 0, b: 0, a: 0}
     - _RectPosition8: {r: 0, g: 0, b: 0, a: 0}
@@ -75,7 +75,7 @@ Material:
     - _RectSize3: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize3_4: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize4: {r: 0, g: 0, b: 0, a: 0}
-    - _RectSize5: {r: 0.07, g: 0.09333, b: 0, a: 0}
+    - _RectSize5: {r: 0.068, g: 0.090666674, b: 0, a: 0}
     - _RectSize6: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize7: {r: 0, g: 0, b: 0, a: 0}
     - _RectSize8: {r: 0, g: 0, b: 0, a: 0}
