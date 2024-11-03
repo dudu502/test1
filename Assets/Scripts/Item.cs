@@ -1,3 +1,4 @@
+using Coffee.UIExtensions;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -14,6 +15,7 @@ namespace GameSpace.Core
         public Image ImgBg;
         public Image ImgModel;
         public Animator ImgModelAnimator;
+        public UIDissolve ImgBgDissolve;
         JToken m_OpInfo;
         public Vector2 PosUv;
         void Start()

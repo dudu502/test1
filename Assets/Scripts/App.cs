@@ -120,7 +120,6 @@ namespace GameSpace.Core
                 }
                 // Move to next question.
             }
-
         }
         public Sprite FindSprite(string name)
         {
@@ -143,9 +142,15 @@ namespace GameSpace.Core
         private void UpdateNextButtonStatus()
         {
             if (CanCheckAnswer())
+            {
                 m_NextBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "Next";
+                m_NextBtn.interactable = true;
+            }
             else
+            {
                 m_NextBtn.GetComponentInChildren<TMPro.TMP_Text>().text = $"{m_UserSelectedAnswers.Count}/{((JArray)m_CurrentAnswers[0]).Count}";
+                m_NextBtn.interactable = false;
+            }
         }
 
         private bool CanCheckAnswer()
@@ -188,6 +193,8 @@ namespace GameSpace.Core
                 m_GameMaterial.SetVector("_RectPosition" + numId, new Vector4(item.PosUv.x, item.PosUv.y));
                 m_GameMaterial.SetVector("_RectSize" + numId, new Vector4(rect_w, rect_h));
                 m_GameMaterial.SetFloat("_RectRadii" + numId, 0.05f);
+
+                item.ImgBgDissolve.location = 1;
             }
             else
             {
@@ -198,10 +205,10 @@ namespace GameSpace.Core
         const float rect_h = rect_w*4/3f;
         void PlayRectEffect(Item item, int numId)
         {
-            StartCoroutine(PlayRectEffectCor(item));
+            StartCoroutine(PlayAdvanceRectEffectCor(item));
         }
         const float animationTime = 0.4f;
-        IEnumerator PlayRectEffectCor(Item item)
+        IEnumerator PlayAdvanceRectEffectCor(Item item)
         {
             m_AnimationTimer.Reset();
             int currentSelectedAnswersCount = m_UserSelectedAnswers.Count;
@@ -216,6 +223,8 @@ namespace GameSpace.Core
                 m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, (toPosUv + currentPosUv) / 2, m_AnimationTimer / animationTime));
                 m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
                 m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, 0.05f);
+
+                item.ImgBgDissolve.location = Mathf.Lerp(0,1f,m_AnimationTimer/animationTime);
                 yield return null;
             }
             m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersCount, toPosUv);
@@ -225,6 +234,8 @@ namespace GameSpace.Core
             m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, (toPosUv + currentPosUv) / 2f);
             m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
             m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, 0.05f);
+
+            item.ImgBgDissolve.location = 1;
         }
         IEnumerator PlayUndoEffectCor(int toNumberIndex)
         {         
@@ -233,20 +244,22 @@ namespace GameSpace.Core
             {
                
                 m_AnimationTimer.Reset();
-                var currentPosUv = m_ItemControllers[m_UserSelectedAnswers.Peek()].PosUv;
+                var currentItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
                 m_UserSelectedAnswers.Pop();
-                var toPosUv = m_ItemControllers[m_UserSelectedAnswers.Peek()].PosUv;
+                var toItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
 
-                Debug.LogWarning($"PlayUndoEffectCor {currentSelectedAnswersIndex} curPos:{currentPosUv} toPos:{toPosUv}");
+                
                 while (m_AnimationTimer <= animationTime)
                 {
-                    m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, Vector4.Lerp(currentPosUv, toPosUv, m_AnimationTimer / animationTime));
+                    m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, Vector4.Lerp(currentItem.PosUv, toItem.PosUv, m_AnimationTimer / animationTime));
                     m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
                     m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, 0.05f);
 
-                    m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, Vector4.Lerp((toPosUv + currentPosUv) / 2,toPosUv , m_AnimationTimer / animationTime));
+                    m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, Vector4.Lerp((toItem.PosUv + currentItem.PosUv) / 2, toItem.PosUv, m_AnimationTimer / animationTime));
                     m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
                     m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, 0.05f);
+
+                    currentItem.ImgBgDissolve.location = Mathf.Lerp(1, 0, m_AnimationTimer / animationTime);
                     yield return null;
                 }
                 m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, new Vector4());
@@ -256,14 +269,16 @@ namespace GameSpace.Core
                 m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
                 m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
                 m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, 0.05f);
-
+                currentItem.ImgBgDissolve.location = 0;
                 currentSelectedAnswersIndex--;
             }
-           
+            UpdateItemsVisible();
+            UpdateNextButtonStatus();
+            UpdateResetButtonStatus();
         }
         void OnClickModel(Item item)
         {
-            if (!m_UserSelectedAnswers.Contains(item.Index))
+            if (!m_UserSelectedAnswers.Contains(item.Index)&&m_UserSelectedAnswers.Count<=5)
             {
                 DrawItemRectEffect(item, m_UserSelectedAnswers.Count);
                 m_UserSelectedAnswers.Push(item.Index);
