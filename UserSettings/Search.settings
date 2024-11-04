@@ -1,6 +1,5 @@
 trackSelection = true
 refreshSearchWindowsInPlayMode = false
-pickerAdvancedUI = false
 fetchPreview = true
 defaultFlags = 0
 keepOpen = false
@@ -9,6 +8,9 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.6A55FB3B" = ""
+	"OpenInspectorPreview.6A55FB3B" = "0"
+	"currentGroup.6A55FB3B" = "all"
 }
 providers = {
 	log = {
@@ -54,6 +56,11 @@ providers = {
 	packages = {
 		active = false
 		priority = 90
+		defaultAction = null
+	}
+	"sdf-artifacts" = {
+		active = false
+		priority = 1000
 		defaultAction = null
 	}
 }

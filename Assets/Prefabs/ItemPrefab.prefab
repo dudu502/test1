@@ -32,6 +32,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7959281919958213384}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -128,6 +129,7 @@ RectTransform:
   - {fileID: 8174672153136866746}
   - {fileID: 5344828846008220985}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -156,9 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 0
   ImgBg: {fileID: 7405580744862088420}
-  ImgModel: {fileID: 3544972480982899674}
+  ImgModel: {fileID: 5436527296397917830}
   ImgModelAnimator: {fileID: 6401530725847589687}
   ImgBgDissolve: {fileID: 7324237048719394763}
+  ImgModelCanvas: {fileID: 903056185580588384}
   PosUv: {x: 0, y: 0}
 --- !u!95 &6401530725847589687
 Animator:
@@ -191,8 +194,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5344828846008220985}
   - component: {fileID: 574407951723119458}
-  - component: {fileID: 3544972480982899674}
   - component: {fileID: 4007758417465627635}
+  - component: {fileID: 5436527296397917830}
+  - component: {fileID: 903056185580588384}
   m_Layer: 5
   m_Name: model
   m_TagString: Untagged
@@ -213,6 +217,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7959281919958213384}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -227,36 +232,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6989921657110610939}
   m_CullTransparentMesh: 1
---- !u!114 &3544972480982899674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6989921657110610939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cbeb4010ab68023469d984afeeaeb649, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4007758417465627635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,3 +261,58 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5436527296397917830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989921657110610939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5337f7824bd045cf8d0df0e1c7a3bf8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _legacySprite: {fileID: 0}
+  _sdfRendererSettings:
+    MainColor: {r: 1, g: 1, b: 1, a: 1}
+    RenderRegular: 1
+    RegularColor: {r: 1, g: 1, b: 1, a: 1}
+    RenderOutline: 1
+    OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    OutlineWidth: 0.6
+    RenderShadow: 1
+    ShadowColor: {r: 0, g: 0, b: 0, a: 0.6392157}
+    ShadowWidth: 0.5
+    ShadowOffset: {x: 0, y: -6}
+  _sdfSpriteReference:
+    _metadataAsset: {fileID: 4841691349494579287, guid: 28e1782c30ddf54469741923ac043785, type: 3}
+  _imageType: 0
+  _preserveAspect: 0
+  _fillCenter: 1
+  _fillMethod: 4
+  _fillAmount: 1
+  _fillClockwise: 1
+  _fillOrigin: 0
+  _useSpriteMesh: 0
+  _pixelsPerUnitMultiplier: 1
+--- !u!225 &903056185580588384
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989921657110610939}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

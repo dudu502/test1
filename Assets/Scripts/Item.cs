@@ -1,5 +1,7 @@
 using Coffee.UIExtensions;
 using Newtonsoft.Json.Linq;
+using nickeltin.SDF.Editor;
+using nickeltin.SDF.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,20 +15,49 @@ namespace GameSpace.Core
     {
         public int Index;
         public Image ImgBg;
-        public Image ImgModel;
+        public SDFImage ImgModel;
         public Animator ImgModelAnimator;
         public UIDissolve ImgBgDissolve;
+        public CanvasGroup ImgModelCanvas;
         JToken m_OpInfo;
         public Vector2 PosUv;
+
+        void Awake()
+        {
+        }
         void Start()
         {
+            ImgModel.RenderOutline = false;
+            ImgModel.RenderShadow = false;
+
 
         }
+        
         public void SetImageModelAlpha(float a)
         {
             var color = ImgModel.color;
             color.a = a;
             ImgModel.color = color;
+        }
+        public void ShowModelShadow()
+        {
+            ImgModel.RenderShadow = true;
+        }
+        public void HideModelShadow()
+        {
+            ImgModel.RenderShadow = false;
+        }
+        public void ShowModelOutline()
+        {
+            ImgModel.RenderOutline = true;
+        }
+        public void HideModelOutline()
+        {
+            ImgModel.RenderOutline= false;
+        }
+        public void PlayModelPressed()
+        {
+            ImgModelAnimator.Play("Pressed");
         }
         public void PlayModelFadeIn()
         {
@@ -57,7 +88,12 @@ namespace GameSpace.Core
         public void SetOpInfo(JToken info)
         {
             m_OpInfo = info;
-            ImgModel.sprite = App.Instance.FindSprite(info["image"]["sha1"].ToString());
+            var imgSprite = App.Instance.FindSprite(info["image"]["sha1"].ToString());
+
+            if (SDFEditorUtil.TryGetSpriteMetadataAsset(imgSprite, true, out var metaAsset))
+            {
+                ImgModel.SDFSpriteReference = new SDFSpriteReference(metaAsset);
+            }
             var rectTrans = GetComponent<RectTransform>();
             
             Debug.LogWarning("Index:"+Index+" Rect:"+GetComponent<RectTransform>().rect + "Row "+GetRowIndex()+" Col "+GetColIndex());

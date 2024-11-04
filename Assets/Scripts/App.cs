@@ -24,7 +24,12 @@ namespace GameSpace.Core
         private Timer m_AnimationTimer;
         private ListIterator<JToken> Questions;
         private JArray m_CurrentAnswers;
-        private Stack<int> m_UserSelectedAnswers = new Stack<int>();
+        private Stack<int> m_UserSelectedAnswers = new Stack<int>(); 
+        private float rect_w => 0.068f * 800 / Screen.width;
+        private float rect_h => rect_w * Screen.width / Screen.height;
+        private float rect_round => 0.05f * 800 / Screen.width;
+
+        private int m_wrong_count = 0;
         public static App Instance
         {
             set;get;
@@ -32,20 +37,7 @@ namespace GameSpace.Core
         void Awake()
         {
             Instance = this;
-
-            Stack<int> m = new Stack<int>();
-            m.Push(0);
-            m.Push(2);
-            m.Push(3);
-            m.Push(4);
-            m.Push(1);
-
-            var s = m.ToList() ;
-            s.Reverse();
-            for (int i = 0; i < s.Count; ++i)
-            {
-                Debug.LogError("Stack To Array " + s[i]);
-            }
+            Debug.LogWarning($"Screen Size {Screen.width} {Screen.height}");
         }
         void Start()
         {
@@ -76,7 +68,7 @@ namespace GameSpace.Core
         {
             if (CanReset())
             {
-                PlayUndoEffect(0);
+                PlayUndoEffect(0,null);
             }
         }
 
@@ -84,41 +76,69 @@ namespace GameSpace.Core
         /// The index of selected answer array.
         /// </summary>
         /// <param name="toNumberIndex"></param>
-        private void PlayUndoEffect(int toNumberIndex)
+        private void PlayUndoEffect(int toNumberIndex,Action complete)
         {
-            StartCoroutine(PlayUndoEffectCor(toNumberIndex));
+            StartCoroutine(PlayUndoEffectCor(toNumberIndex, complete));
+        }
+
+        public int GetAnswersCount()
+        {
+            return ((JArray)m_CurrentAnswers[0]).Count;
         }
 
         public void OnClickNext()
         {
             if (CanCheckAnswer())
             {
-                // Check the answers.
                 var userSelected = m_UserSelectedAnswers.ToList();
                 userSelected.Reverse();
-                JArray answers = m_CurrentAnswers[0] as JArray;
-                bool isCorrect = true;
+                JArray answers = m_CurrentAnswers[0] as JArray;  
                 int wrongIndex = -1;
                 for (int i = 0; i < answers.Count; ++i)
                 {
                     if(answers[i].ToString() != userSelected[i].ToString())
                     {
-                        isCorrect = false;
+
                         wrongIndex = i;
                         break;
                     }
                 }
+
+                // wrong answers!....
                 if (wrongIndex > -1)
                 {
+                    m_wrong_count++;
                     Debug.LogWarning("Wrong Index "+wrongIndex);
                     for (int j = wrongIndex; j < userSelected.Count; ++j)
                     {
                         m_ItemControllers[userSelected[j]].PlayModelWrongEffect();
                     }
 
-                    PlayUndoEffect(wrongIndex-1);
+                    PlayUndoEffect(wrongIndex-1, () => {
+                        if (m_wrong_count >= 2)
+                        {
+                            // Auto show the correct answers!
+                            ShowCorrectAnswers();
+                        }
+                    });
                 }
                 // Move to next question.
+            }
+        }
+
+        private void ShowCorrectAnswers()
+        {
+            StartCoroutine(ShowCorrectAnswersCor());
+        }
+
+        IEnumerator ShowCorrectAnswersCor()
+        {
+            JArray answers = m_CurrentAnswers[0] as JArray;
+            for (int i = 0; i < answers.Count; ++i)
+            {
+                yield return new WaitForSeconds(0.5f);
+                OnClickModel(m_ItemControllers[Convert.ToInt32(answers[i].ToString())]);
+                yield return new WaitForSeconds(0.5f);
             }
         }
         public Sprite FindSprite(string name)
@@ -192,7 +212,7 @@ namespace GameSpace.Core
             {
                 m_GameMaterial.SetVector("_RectPosition" + numId, new Vector4(item.PosUv.x, item.PosUv.y));
                 m_GameMaterial.SetVector("_RectSize" + numId, new Vector4(rect_w, rect_h));
-                m_GameMaterial.SetFloat("_RectRadii" + numId, 0.05f);
+                m_GameMaterial.SetFloat("_RectRadii" + numId, rect_round);
 
                 item.ImgBgDissolve.location = 1;
             }
@@ -201,8 +221,7 @@ namespace GameSpace.Core
                 PlayRectEffect(item, numId);
             }
         }
-        const float rect_w = 0.068f;
-        const float rect_h = rect_w*4/3f;
+
         void PlayRectEffect(Item item, int numId)
         {
             StartCoroutine(PlayAdvanceRectEffectCor(item));
@@ -218,68 +237,71 @@ namespace GameSpace.Core
             {
                 m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, toPosUv, m_AnimationTimer / animationTime));
                 m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, 0.05f);
+                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, rect_round);
 
                 m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, (toPosUv + currentPosUv) / 2, m_AnimationTimer / animationTime));
                 m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, 0.05f);
+                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, rect_round);
 
                 item.ImgBgDissolve.location = Mathf.Lerp(0,1f,m_AnimationTimer/animationTime);
                 yield return null;
             }
             m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersCount, toPosUv);
             m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-            m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, 0.05f);
+            m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, rect_round);
 
             m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, (toPosUv + currentPosUv) / 2f);
             m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-            m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, 0.05f);
+            m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, rect_round);
 
             item.ImgBgDissolve.location = 1;
         }
-        IEnumerator PlayUndoEffectCor(int toNumberIndex)
-        {         
+        IEnumerator PlayUndoEffectCor(int toNumberIndex, Action complete)
+        {
             int currentSelectedAnswersIndex = m_UserSelectedAnswers.Count - 1;
             while (currentSelectedAnswersIndex > toNumberIndex)
             {
-               
+
                 m_AnimationTimer.Reset();
                 var currentItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
                 m_UserSelectedAnswers.Pop();
                 var toItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
 
-                
+
                 while (m_AnimationTimer <= animationTime)
                 {
                     m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, Vector4.Lerp(currentItem.PosUv, toItem.PosUv, m_AnimationTimer / animationTime));
                     m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
-                    m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, 0.05f);
+                    m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, rect_round);
 
                     m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, Vector4.Lerp((toItem.PosUv + currentItem.PosUv) / 2, toItem.PosUv, m_AnimationTimer / animationTime));
                     m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
-                    m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, 0.05f);
+                    m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, rect_round);
 
                     currentItem.ImgBgDissolve.location = Mathf.Lerp(1, 0, m_AnimationTimer / animationTime);
                     yield return null;
                 }
                 m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, new Vector4());
                 m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, 0.05f);
+                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, rect_round);
 
                 m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
                 m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, 0.05f);
+                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, rect_round);
                 currentItem.ImgBgDissolve.location = 0;
-                currentSelectedAnswersIndex--;
+                currentSelectedAnswersIndex--; 
+                UpdateItemsVisible();
             }
             UpdateItemsVisible();
             UpdateNextButtonStatus();
             UpdateResetButtonStatus();
+            complete?.Invoke();
         }
         void OnClickModel(Item item)
         {
-            if (!m_UserSelectedAnswers.Contains(item.Index)&&m_UserSelectedAnswers.Count<=5)
+            if (!m_UserSelectedAnswers.Contains(item.Index)&&m_UserSelectedAnswers.Count < GetAnswersCount())
             {
+                item.PlayModelPressed();
                 DrawItemRectEffect(item, m_UserSelectedAnswers.Count);
                 m_UserSelectedAnswers.Push(item.Index);
                 UpdateItemsVisible();
@@ -289,41 +311,37 @@ namespace GameSpace.Core
         }
         void UpdateItemsVisible()
         {
-            Item peekItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
-            List<int> neibors = Utils.GetNeibors(peekItem.GetRowIndex() - 1, peekItem.GetColIndex() - 1);
-            foreach (var item in m_ItemControllers)
-            {            
-                if(m_UserSelectedAnswers.Contains(item.Index) || neibors.Contains(item.Index))
+            if (m_UserSelectedAnswers.Count < GetAnswersCount())
+            {
+                Item peekItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
+                List<int> neibors = Utils.GetNeibors(peekItem.GetRowIndex() - 1, peekItem.GetColIndex() - 1);
+                foreach (var item in m_ItemControllers)
                 {
-                    //Play desolve effect for bg;
-                    item.PlayModelFadeIn();
-                }
-                else 
-                {
-                    item.PlayModelFadeOut();
+                    bool isInSelected = m_UserSelectedAnswers.Contains(item.Index);
+                    bool isInNeibor = neibors.Contains(item.Index);
+                    item.HideModelShadow();
+                  
+                    if (isInSelected || isInNeibor)
+                    {
+                        item.PlayModelFadeIn();
+                        if (isInNeibor && !isInSelected)
+                        {           
+                            item.ShowModelShadow();
+                        }
+                 
+                    }
+                    else
+                    {
+                        item.PlayModelFadeOut();
+                    }
                 }
             }
 
-            //foreach(var item in m_ItemControllers)
-            //{
-            //    item.SetImageModelAlpha(.5f);
-            //}
-            //foreach(var stacked in SelectedAnswers)
-            //{
-            //    m_ItemControllers[stacked].SetImageBgAlpha(0);
-            //    m_ItemControllers[stacked].SetImageModelAlpha(1);
-            //}
-            //if(SelectedAnswers.TryPeek(out int id))
-            //{
-            //    Item peekItem = m_ItemControllers[id];
-            //    peekItem.SetImageModelAlpha(1);
+            foreach(var itemId in m_UserSelectedAnswers)
+            {
+                m_ItemControllers[itemId].ShowModelOutline();
+            }
 
-            //    List<int> neibors =  Utils.GetNeibors(peekItem.GetRowIndex()-1, peekItem.GetColIndex()-1);
-            //    foreach(var neiborIndex in neibors)
-            //    {
-            //        m_ItemControllers[neiborIndex].SetImageModelAlpha(1);
-            //    }
-            //}
         }
         // Update is called once per frame
         void Update()
