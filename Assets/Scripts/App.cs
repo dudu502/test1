@@ -311,7 +311,7 @@ namespace GameSpace.Core
         }
         void UpdateItemsVisible()
         {
-            if (m_UserSelectedAnswers.Count < GetAnswersCount())
+            if (m_UserSelectedAnswers.Count < GetAnswersCount()+1)
             {
                 Item peekItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
                 List<int> neibors = Utils.GetNeibors(peekItem.GetRowIndex() - 1, peekItem.GetColIndex() - 1);
@@ -323,7 +323,10 @@ namespace GameSpace.Core
                   
                     if (isInSelected || isInNeibor)
                     {
-                        item.PlayModelFadeIn();
+                        if(m_UserSelectedAnswers.Count<5)
+                            item.PlayModelFadeIn();
+                        //else
+                        //    item.PlayModelFadeOut();
                         if (isInNeibor && !isInSelected)
                         {           
                             item.ShowModelShadow();
