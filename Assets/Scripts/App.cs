@@ -18,9 +18,10 @@ namespace GameSpace.Core
         public Sprite[] m_AllModelSprites;
         public Item[] m_ItemControllers;
         public GameObject m_GameEnterPointObj;
-        public Material m_GameMaterial;
         public Button m_NextBtn;
         public Button m_ResetBtn;
+        public TMPro.TMP_Text m_GameResultText;
+        private Material m_GameMaterial;
         private Timer m_AnimationTimer;
         private ListIterator<JToken> Questions;
         private JArray m_CurrentAnswers;
@@ -41,6 +42,7 @@ namespace GameSpace.Core
         }
         void Start()
         {
+            m_GameResultText.text = "";
             m_AnimationTimer = new Timer();
             m_GameMaterial = m_GameEnterPointObj.GetComponent<Image>().material;
             Utils.ClearAllMatEffect(m_GameMaterial);
@@ -122,6 +124,10 @@ namespace GameSpace.Core
                         }
                     });
                 }
+                else
+                {
+                    m_GameResultText.text = "You Win";
+                }
                 // Move to next question.
             }
         }
@@ -136,9 +142,8 @@ namespace GameSpace.Core
             JArray answers = m_CurrentAnswers[0] as JArray;
             for (int i = 0; i < answers.Count; ++i)
             {
-                yield return new WaitForSeconds(0.5f);
                 OnClickModel(m_ItemControllers[Convert.ToInt32(answers[i].ToString())]);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.8f);
             }
         }
         public Sprite FindSprite(string name)
@@ -299,7 +304,11 @@ namespace GameSpace.Core
         }
         void OnClickModel(Item item)
         {
-            if (!m_UserSelectedAnswers.Contains(item.Index)&&m_UserSelectedAnswers.Count < GetAnswersCount())
+            var thePeekSelectedId = m_UserSelectedAnswers.Peek();
+            var thePeekSelectedItem = m_ItemControllers[thePeekSelectedId];
+            if (!m_UserSelectedAnswers.Contains(item.Index)
+                &&m_UserSelectedAnswers.Count < GetAnswersCount()
+                && Utils.GetNeibors(thePeekSelectedItem.GetRowIndex()-1, thePeekSelectedItem.GetColIndex()-1).Contains(item.Index))
             {
                 item.PlayModelPressed();
                 DrawItemRectEffect(item, m_UserSelectedAnswers.Count);
