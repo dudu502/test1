@@ -1,6 +1,6 @@
-using GameSpace.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using nickeltin.SDF.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace GameSpace.Core
     public class App : MonoBehaviour
     {
         public TextAsset m_ConfigJsonText;
-        public Sprite[] m_AllModelSprites;
+        public SDFSpriteReference[] m_AllModelSprites;
         public Item[] m_ItemControllers;
         public GameObject m_GameEnterPointObj;
         public Button m_NextBtn;
@@ -146,11 +146,11 @@ namespace GameSpace.Core
                 yield return new WaitForSeconds(0.8f);
             }
         }
-        public Sprite FindSprite(string name)
+        public SDFSpriteReference FindSprite(string name)
         {
-            foreach (var sprite in m_AllModelSprites)
-                if (sprite.name == name)
-                    return sprite;
+            foreach (var spriteRef in m_AllModelSprites)
+                if (spriteRef.SourceSprite.name == name)
+                    return spriteRef;
             return null;
         }
 

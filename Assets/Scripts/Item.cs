@@ -1,6 +1,5 @@
 using Coffee.UIExtensions;
 using Newtonsoft.Json.Linq;
-using nickeltin.SDF.Editor;
 using nickeltin.SDF.Runtime;
 using System;
 using System.Collections;
@@ -89,11 +88,8 @@ namespace GameSpace.Core
         {
             m_OpInfo = info;
             var imgSprite = App.Instance.FindSprite(info["image"]["sha1"].ToString());
+            ImgModel.SDFSpriteReference = imgSprite;
 
-            if (SDFEditorUtil.TryGetSpriteMetadataAsset(imgSprite, true, out var metaAsset))
-            {
-                ImgModel.SDFSpriteReference = new SDFSpriteReference(metaAsset);
-            }
             var rectTrans = GetComponent<RectTransform>();
             
             Debug.LogWarning("Index:"+Index+" Rect:"+GetComponent<RectTransform>().rect + "Row "+GetRowIndex()+" Col "+GetColIndex());

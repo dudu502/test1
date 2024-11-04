@@ -65,12 +65,8 @@
     <Compile Include="Assets\DissolveEffectForUGUI\UIDissolve.cs" />
     <Compile Include="Assets\Scripts\EventDispatcher.cs" />
     <Compile Include="Assets\DissolveEffectForUGUI\Demo\Demo_DissolveEffectForUGUI.cs" />
-    <Compile Include="Assets\Scripts\ErasePixels2.cs" />
-    <Compile Include="Assets\Scripts\Easer.cs" />
     <Compile Include="Assets\Scripts\Utils.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
-    <Compile Include="Assets\Scripts\ErasePixels.cs" />
-    <Compile Include="Assets\Scripts\Data.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\App.cs" />
   </ItemGroup>
