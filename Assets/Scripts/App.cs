@@ -240,59 +240,46 @@ namespace GameSpace.Core
             var toPosUv = item.PosUv;
             while (m_AnimationTimer <= animationTime)
             {
-                m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, toPosUv, m_AnimationTimer / animationTime));
-                m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, rect_round);
+                PlayMaterialAnimation(currentSelectedAnswersCount.ToString(), Vector4.Lerp(currentPosUv, toPosUv, m_AnimationTimer / animationTime));
 
-                m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, (toPosUv + currentPosUv) / 2, m_AnimationTimer / animationTime));
-                m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, rect_round);
-
+                PlayMaterialAnimation((currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, Vector4.Lerp(currentPosUv, (toPosUv + currentPosUv) / 2, m_AnimationTimer / animationTime));
                 item.ImgBgDissolve.location = Mathf.Lerp(0,1f,m_AnimationTimer/animationTime);
                 yield return null;
             }
-            m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersCount, toPosUv);
-            m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-            m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersCount, rect_round);
+            PlayMaterialAnimation(currentSelectedAnswersCount.ToString(), toPosUv);
 
-            m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, (toPosUv + currentPosUv) / 2f);
-            m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, new Vector4(rect_w, rect_h));
-            m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, rect_round);
-
+            PlayMaterialAnimation((currentSelectedAnswersCount - 1) + "_" + currentSelectedAnswersCount, (toPosUv + currentPosUv) / 2f);
             item.ImgBgDissolve.location = 1;
+        }
+
+        void PlayMaterialAnimation(string index,Vector2 pos)
+        {
+            m_GameMaterial.SetVector("_RectPosition" + index, pos);
+            m_GameMaterial.SetVector("_RectSize" + index, new Vector4(rect_w, rect_h));
+            m_GameMaterial.SetFloat("_RectRadii" + index, rect_round);
         }
         IEnumerator PlayUndoEffectCor(int toNumberIndex, Action complete)
         {
             int currentSelectedAnswersIndex = m_UserSelectedAnswers.Count - 1;
             while (currentSelectedAnswersIndex > toNumberIndex)
             {
-
                 m_AnimationTimer.Reset();
                 var currentItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
                 m_UserSelectedAnswers.Pop();
                 var toItem = m_ItemControllers[m_UserSelectedAnswers.Peek()];
 
-
                 while (m_AnimationTimer <= animationTime)
                 {
-                    m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, Vector4.Lerp(currentItem.PosUv, toItem.PosUv, m_AnimationTimer / animationTime));
-                    m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
-                    m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, rect_round);
+                    PlayMaterialAnimation(currentSelectedAnswersIndex.ToString(), Vector4.Lerp(currentItem.PosUv, toItem.PosUv, m_AnimationTimer / animationTime));
 
-                    m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, Vector4.Lerp((toItem.PosUv + currentItem.PosUv) / 2, toItem.PosUv, m_AnimationTimer / animationTime));
-                    m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4(rect_w, rect_h));
-                    m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, rect_round);
-
+                    PlayMaterialAnimation((currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, Vector4.Lerp((toItem.PosUv + currentItem.PosUv) / 2, toItem.PosUv, m_AnimationTimer / animationTime));
                     currentItem.ImgBgDissolve.location = Mathf.Lerp(1, 0, m_AnimationTimer / animationTime);
                     yield return null;
                 }
-                m_GameMaterial.SetVector("_RectPosition" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetVector("_RectSize" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetFloat("_RectRadii" + currentSelectedAnswersIndex, rect_round);
-
-                m_GameMaterial.SetVector("_RectPosition" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetVector("_RectSize" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
-                m_GameMaterial.SetFloat("_RectRadii" + (currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, rect_round);
+    
+                PlayMaterialAnimation(currentSelectedAnswersIndex.ToString(), new Vector4());
+     
+                PlayMaterialAnimation((currentSelectedAnswersIndex - 1) + "_" + currentSelectedAnswersIndex, new Vector4());
                 currentItem.ImgBgDissolve.location = 0;
                 currentSelectedAnswersIndex--; 
                 UpdateItemsVisible();
